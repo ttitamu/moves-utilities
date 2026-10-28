@@ -1,0 +1,83 @@
+project:
+  type: website
+  output-dir: _site
+  # Render only site pages. Files and folders that start with "_" (templates) are never rendered.
+  # README.md and CONTRIBUTING-NEWS.md are maintainer documents and stay out of the site.
+  render:
+    - "*.qmd"
+    - "news/*.md"
+    - "releases/*.md"
+    - "!README.md"
+    - "!CONTRIBUTING-NEWS.md"
+  # Fails the build when a published page still holds template text or, for deploy builds,
+  # TODO(owner) markers. See the script header.
+  post-render: _scripts/check-placeholders.lua
+  resources:
+    - "assets/fonts/*.woff2"
+    - "assets/fonts/OFL.txt"
+    # Never copy one profile's output into the other.
+    - "!_site/"
+    - "!.site-review/"
+
+lang: en
+
+website:
+  title: "MOVES Utilities"
+  description: "Releases, release notes, known issues, and MOVES compatibility for MOVES Utilities, a Windows desktop application from the Texas A&M Transportation Institute."
+  site-url: "https://ttitamu.github.io/moves-utilities"
+  # draft: true posts are not rendered, listed, searched, or included in the feed.
+  draft-mode: gone
+  page-navigation: false
+  reader-mode: false
+  back-to-top-navigation: false
+  search:
+    location: navbar
+    type: textbox
+  navbar:
+    background: primary
+    search: true
+    collapse-below: lg
+    right:
+      - text: "Releases"
+        href: releases/index.qmd
+      - text: "Known issues"
+        href: known-issues.qmd
+      - text: "Compatibility"
+        href: compatibility.qmd
+      - text: "News"
+        href: news/index.qmd
+      - text: "About"
+        href: about.qmd
+  page-footer:
+    left: |
+      The Texas A&M Transportation Institute (TTI) develops MOVES Utilities with sponsorship from the Texas Department of Transportation (TxDOT).
+
+      ::: {.mu-footer-muted}
+      MOVES Utilities is not a product of the U.S. Environmental Protection Agency (EPA). MOVES is developed and distributed by EPA. Use of MOVES results for State Implementation Plans and transportation conformity is governed by EPA policy and technical guidance.
+      :::
+
+      ::: {.mu-footer-links}
+      [Accessibility](/about.qmd#accessibility) [·]{aria-hidden="true"} [Privacy](/about.qmd#privacy) [·]{aria-hidden="true"} [Disclaimer](/about.qmd#disclaimer) [·]{aria-hidden="true"} [Contact and problem reports](/about.qmd#contact) [·]{aria-hidden="true"} [News feed (RSS)](/news/index.xml) [·]{aria-hidden="true"} [GitHub releases](https://github.com/ttitamu/moves-utilities/releases)
+      :::
+
+format:
+  html:
+    theme: [default, design/theme.scss, design/site.scss]
+    css: assets/fonts/public-sans.css
+    highlight-style: a11y
+    # No math on this site; keeps listing pages from loading MathJax from a CDN.
+    html-math-method: plain
+    callout-icon: false
+    callout-appearance: simple
+    title-block-banner: false
+    smooth-scroll: false
+    anchor-sections: true
+    code-copy: true
+    toc: true
+    toc-title: "On this page"
+    include-in-header: _includes/head.html
+    include-before-body: _includes/skip-link.html
+    include-after-body: _includes/chrome.html
+    filters:
+      - quarto
+      - _filters/mu.lua

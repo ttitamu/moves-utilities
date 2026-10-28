@@ -1,0 +1,72 @@
+name: Publish site
+
+# Rebuilds and deploys the site to GitHub Pages.
+# - push to main: news posts, release notes, and _variables.yml changes (including commits
+#   made by the release pipeline) publish automatically.
+# - repository_dispatch (release-published): lets the source repository request a rebuild.
+# - workflow_dispatch: manual rebuild from the Actions tab.
+# - pull_request to main: renders the site so reviewers see the build result. Never deploys.
+# No scheduled runs.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [release-published]
+
+permissions:
+  contents: read
+
+# Deploys share one queue. Pull-request builds get their own group so a queued PR build can
+# never replace a pending deploy.
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.ref) || 'pages' }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
+        with:
+          version: 1.8.27
+
+      # The post-render placeholder check always fails on template text. Deploy builds also fail
+      # on any TODO(owner) marker; pull-request builds only list them.
+      - name: Render site
+        run: quarto render
+        env:
+          MU_REQUIRE_FILLED: ${{ github.event_name == 'pull_request' && '0' || '1' }}
+
+      - name: Configure Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

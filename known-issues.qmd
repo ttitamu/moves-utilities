@@ -1,0 +1,41 @@
+---
+title: "Known Issues"
+---
+
+This page lists known problems in released versions of MOVES Utilities, with workarounds. Check this page before you report a problem.
+
+Last updated: {{< var latest.date >}}
+
+## Summary
+
+| ID | Affects | Summary | Status | Fixed in |
+|---|---|---|---|---|
+| [KI-001](#ki-001) | 0.5.9 | Installer is not digitally signed | Open | Not yet fixed |
+
+Status values: **Open** means no fix is released. **Fixed** means a released version corrects the problem. **Closed, no fix** means the behavior will not change; the entry explains why.
+
+## KI-001: Installer is not digitally signed {#ki-001}
+
+**Affects:** 0.5.9
+
+**Status:** Open
+
+**Results impact:** None. This issue does not affect computed results.
+
+**Symptom:** Windows SmartScreen shows "Windows protected your PC" when you start the installer. Some organizations block unsigned programs.
+
+**Workaround:** Compare the installer's SHA-256 hash with the value on the [Releases](releases/index.qmd#download) page. If the hashes match, select **More info**, then **Run anyway**. If your organization blocks the installer, ask your IT department for help.
+
+**Fix:** Code signing is planned. Until then, Windows may show a SmartScreen warning when you start the installer.
+
+## Report a new issue
+
+Open an issue in the [moves-utilities repository]({{< var contact.url >}}). You need a GitHub account.
+
+Include the application version from **Settings**, then **About**, the MOVES version, and the steps that cause the problem. Do not send passwords or database connection details.
+
+<!--
+To add an issue: copy the KI-001 section, give it the next ID, and add a row to
+the Summary table. When a fix ships, set Status to Fixed and fill in "Fixed in".
+Do not delete fixed entries. Users of older versions still need them.
+-->

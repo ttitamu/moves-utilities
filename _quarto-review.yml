@@ -1,0 +1,7 @@
+# Review profile: shows draft pages so reviewers can read them before approval.
+# Use: quarto preview --profile review   (or quarto render --profile review)
+# Never deploy this output. The publish workflow renders the default profile only.
+project:
+  output-dir: .site-review
+website:
+  draft-mode: visible

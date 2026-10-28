@@ -1,0 +1,27 @@
+---
+title: "Compatibility"
+---
+
+This page lists the EPA MOVES versions that each MOVES Utilities version works with. Use the MOVES version your analysis requires under EPA policy guidance. Then pick the MOVES Utilities version that supports it.
+
+## MOVES Utilities and MOVES versions
+
+| MOVES Utilities | MOVES4 | MOVES5 | MOVES6 |
+|---|---|---|---|
+| 0.5.9 | Supported (MOVES4.0 series) | Supported (MOVES5.0 series) | Not supported |
+
+In version 0.5.9, the application detects the MOVES version from your MOVES installation folder. The MOVES family selector offers MOVES4 and MOVES5 only.
+
+EPA released MOVES6.0.0 on October 15, 2026. Support for MOVES6 is planned for a future release.
+
+## Other software
+
+| Software | Requirement |
+|---|---|
+| Windows | Windows 10 or 11, 64-bit. |
+| MariaDB server | Required. Use the version required by your MOVES installation. |
+| Python | Not required. The installer contains its own runtime. |
+
+## Results and EPA guidance
+
+MOVES Utilities prepares inputs for MOVES and processes MOVES output. It does not change how MOVES calculates emissions. Use of MOVES results for State Implementation Plans and transportation conformity follows EPA policy and technical guidance for the MOVES version you use.

@@ -1,0 +1,739 @@
+/*
+ * MOVES Utilities public site — Quarto theme
+ * Use: format.html.theme: [default, design/theme.scss]   (light theme only)
+ *
+ * Fonts: Public Sans is self-hosted. The @font-face rules live in assets/fonts/public-sans.css
+ * (loaded through format.html.css in _quarto.yml) so the font URLs resolve next to the .woff2 files.
+ * No third-party font request is made, so visitors are not tracked by a font service.
+ *
+ * All contrast ratios referenced in comments are computed.
+ */
+
+/*-- scss:defaults --*/
+
+// ---------- Primitive tokens (the only place hex values appear) ----------
+$mu-maroon-900: #500000; // Texas A&M maroon — confirm with TTI Communications
+$mu-maroon-700: #6e1414;
+$mu-maroon-100: #f3e9e9;
+$mu-gray-900:   #1b1b1b;
+$mu-gray-700:   #4a4a4a;
+$mu-gray-500:   #767676; // control borders only, never text on tinted bg
+$mu-gray-200:   #dcdcdc; // decorative hairlines only
+$mu-gray-100:   #efefef;
+$mu-gray-50:    #f7f7f7;
+$mu-white:      #ffffff;
+$mu-blue-700:   #0a5cb8; // focus ring on light surfaces (6.49:1 on white)
+$mu-purple-700: #4c2c7e; // visited links
+$mu-green-800:  #1d5c2e;
+$mu-green-50:   #e6f1e8;
+$mu-amber-800:  #6b4000;
+$mu-amber-50:   #fbefd6;
+$mu-red-800:    #8c1d18;
+$mu-red-50:     #fbeaea;
+$mu-blue-800:   #0b4a8f;
+$mu-blue-50:    #eaf1f8;
+
+// ---------- Semantic tokens ----------
+$mu-color-bg:              $mu-white;
+$mu-color-bg-subtle:       $mu-gray-50;
+$mu-color-bg-muted:        $mu-gray-100;
+$mu-color-bg-brand:        $mu-maroon-900;
+$mu-color-bg-brand-hover:  $mu-maroon-700;
+$mu-color-bg-brand-tint:   $mu-maroon-100;
+$mu-color-text:            $mu-gray-900;
+$mu-color-text-muted:      $mu-gray-700;
+$mu-color-text-on-brand:   $mu-white;
+$mu-color-link:            $mu-maroon-900;
+$mu-color-link-hover:      $mu-maroon-700;
+$mu-color-link-visited:    $mu-purple-700;
+$mu-color-border:          $mu-gray-200;
+$mu-color-border-strong:   $mu-gray-900;
+$mu-color-border-control:  $mu-gray-500;
+$mu-color-focus:           $mu-blue-700;
+$mu-color-focus-on-brand:  $mu-white;
+
+$mu-font-sans: "Public Sans", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+$mu-font-mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, "Liberation Mono", monospace;
+$mu-radius: 2px;
+
+// ---------- Bootstrap / Quarto variables ----------
+$primary:   $mu-color-bg-brand;
+$secondary: $mu-color-text-muted;
+$success:   $mu-green-800;
+$info:      $mu-blue-800;
+$warning:   $mu-amber-800;
+$danger:    $mu-red-800;
+$light:     $mu-color-bg-muted;
+$dark:      $mu-color-text;
+
+$body-bg:              $mu-color-bg;
+$body-color:           $mu-color-text;
+$text-muted:           $mu-color-text-muted;
+$body-secondary-color: $mu-color-text-muted;
+$headings-color:       $mu-color-text;
+$border-color:         $mu-color-border;
+
+$enable-shadows:    false;
+$enable-gradients:  false;
+$enable-rounded:    true;
+$box-shadow:        none;
+$box-shadow-sm:     none;
+$box-shadow-lg:     none;
+$border-radius:     $mu-radius;
+$border-radius-sm:  $mu-radius;
+$border-radius-lg:  $mu-radius;
+$border-radius-xl:  $mu-radius;
+$btn-border-radius: $mu-radius;
+
+$font-family-sans-serif: $mu-font-sans;
+$font-family-monospace:  $mu-font-mono;
+$font-size-root:         16px;
+$font-size-base:         1rem;
+$line-height-base:       1.5;
+$h1-font-size:           1.953rem;
+$h2-font-size:           1.5625rem;
+$h3-font-size:           1.25rem;
+$h4-font-size:           1rem;
+$h5-font-size:           1rem;
+$h6-font-size:           1rem;
+$headings-font-weight:   700;
+$headings-line-height:   1.28;
+$headings-margin-bottom: 0.5rem;
+$small-font-size:        0.875rem;
+
+$link-color:            $mu-color-link;
+$link-decoration:       underline;
+$link-hover-color:      $mu-color-link-hover;
+$link-hover-decoration: underline;
+
+// Quarto chrome
+$navbar-bg: $mu-color-bg-brand;
+$navbar-fg: $mu-color-text-on-brand;
+$navbar-hl: $mu-color-text-on-brand;
+$sidebar-bg: $mu-color-bg;
+$sidebar-fg: $mu-color-text;
+$sidebar-hl: $mu-color-text;
+$footer-bg: $mu-color-bg-muted;
+$footer-fg: $mu-color-text;
+
+// Code
+$code-color:            $mu-color-text;
+$code-bg:               $mu-color-bg-muted;
+$code-block-bg:         $mu-color-bg-subtle;
+$code-block-border-left: false;
+
+// Tables
+$table-color:          $mu-color-text;
+$table-border-color:   $mu-color-border;
+$table-striped-bg:     $mu-color-bg-subtle;
+$table-hover-bg:       transparent;
+$table-th-font-weight: 600;
+$table-cell-padding-y: 0.5rem;   // space-2
+$table-cell-padding-x: 0.75rem;  // space-3
+
+// Forms (search input)
+$input-border-color:       $mu-color-border-control; // 4.54:1 on white (UI ≥3:1)
+$input-focus-border-color: $mu-color-focus;
+$input-focus-box-shadow:   none;
+$input-btn-focus-box-shadow: none;
+
+// Callouts (icons off in _quarto.yml; titles carry the meaning)
+$callout-color-note:      $mu-blue-800;
+$callout-color-warning:   $mu-amber-800;
+$callout-color-important: $mu-red-800;
+$callout-color-tip:       $mu-blue-800;   // not used; neutralized
+$callout-color-caution:   $mu-amber-800;  // not used; neutralized
+$callout-border-width:    4px;
+
+
+/*-- scss:rules --*/
+
+// ---------- Token export for templates / one-off use ----------
+:root {
+  --mu-maroon-900: #{$mu-maroon-900};
+  --mu-maroon-700: #{$mu-maroon-700};
+  --mu-maroon-100: #{$mu-maroon-100};
+  --mu-gray-900: #{$mu-gray-900};
+  --mu-gray-700: #{$mu-gray-700};
+  --mu-gray-500: #{$mu-gray-500};
+  --mu-gray-200: #{$mu-gray-200};
+  --mu-gray-100: #{$mu-gray-100};
+  --mu-gray-50: #{$mu-gray-50};
+  --mu-white: #{$mu-white};
+
+  --mu-color-bg: #{$mu-color-bg};
+  --mu-color-bg-subtle: #{$mu-color-bg-subtle};
+  --mu-color-bg-muted: #{$mu-color-bg-muted};
+  --mu-color-bg-brand: #{$mu-color-bg-brand};
+  --mu-color-bg-brand-hover: #{$mu-color-bg-brand-hover};
+  --mu-color-bg-brand-tint: #{$mu-color-bg-brand-tint};
+  --mu-color-text: #{$mu-color-text};
+  --mu-color-text-muted: #{$mu-color-text-muted};
+  --mu-color-text-on-brand: #{$mu-color-text-on-brand};
+  --mu-color-link: #{$mu-color-link};
+  --mu-color-link-hover: #{$mu-color-link-hover};
+  --mu-color-link-visited: #{$mu-color-link-visited};
+  --mu-color-border: #{$mu-color-border};
+  --mu-color-border-strong: #{$mu-color-border-strong};
+  --mu-color-border-control: #{$mu-color-border-control};
+  --mu-color-focus: #{$mu-color-focus};
+  --mu-color-focus-on-brand: #{$mu-color-focus-on-brand};
+
+  --mu-font-sans: #{$mu-font-sans};
+  --mu-font-mono: #{$mu-font-mono};
+  --mu-text-h1: 1.953rem;
+  --mu-text-h2: 1.5625rem;
+  --mu-text-h3: 1.25rem;
+  --mu-text-h4: 1rem;
+  --mu-text-body: 1rem;
+  --mu-text-table: 0.9375rem;
+  --mu-text-small: 0.875rem;
+  --mu-text-label: 0.8125rem;
+
+  --mu-space-1: 4px;
+  --mu-space-2: 8px;
+  --mu-space-3: 12px;
+  --mu-space-4: 16px;
+  --mu-space-6: 24px;
+  --mu-space-8: 32px;
+  --mu-space-12: 48px;
+  --mu-space-16: 64px;
+  --mu-radius: #{$mu-radius};
+}
+
+// ---------- Base ----------
+body {
+  font-family: var(--mu-font-sans);
+  background: var(--mu-color-bg);
+  color: var(--mu-color-text);
+  -webkit-font-smoothing: auto;
+}
+
+main p, main li, main dd { max-width: 72ch; }
+main p { margin-bottom: var(--mu-space-4); }
+
+h1, .h1, .title { font-size: var(--mu-text-h1); line-height: 40px; font-weight: 700; color: var(--mu-color-text); }
+h2, .h2 { font-size: var(--mu-text-h2); line-height: 32px; font-weight: 700; margin-top: var(--mu-space-8); }
+h3, .h3 { font-size: var(--mu-text-h3); line-height: 28px; font-weight: 600; margin-top: var(--mu-space-6); }
+h4, .h4 { font-size: var(--mu-text-h4); line-height: 24px; font-weight: 700; margin-top: var(--mu-space-4); }
+h1, h2, h3, h4 { margin-bottom: var(--mu-space-2); letter-spacing: 0; }
+
+// Section rule above h2 instead of boxes (skip first h2 after title block)
+main h2,
+main section.level2 > h2 {
+  border-top: 1px solid var(--mu-color-border);
+  border-bottom: 0;
+  padding-top: var(--mu-space-6);
+}
+main #title-block-header + section.level2 > h2:first-child,
+main > section.level2:first-of-type > h2,
+main h2.mu-no-rule { border-top: 0; padding-top: 0; }
+
+// Quarto adds a bottom border to h2 by default; remove it
+.quarto-title-block .quarto-title h1.title { margin-bottom: var(--mu-space-2); }
+#title-block-header { margin-bottom: var(--mu-space-6); }
+#title-block-header.quarto-title-block.default .quarto-title-meta { gap: var(--mu-space-4); }
+.quarto-title-meta-heading { font-size: var(--mu-text-small); font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--mu-color-text-muted); }
+.quarto-title-meta-contents { font-size: var(--mu-text-small); color: var(--mu-color-text-muted); }
+
+small, .small, figcaption, .figure-caption { font-size: var(--mu-text-small); color: var(--mu-color-text-muted); }
+time, .mu-num { font-variant-numeric: tabular-nums; }
+
+// ---------- Links: always underlined (WCAG 1.4.1) ----------
+a {
+  color: var(--mu-color-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+a:hover { color: var(--mu-color-link-hover); text-decoration-thickness: 2px; }
+main a:visited { color: var(--mu-color-link-visited); }
+
+// ---------- Focus (visible everywhere; 3px; ≥3:1 vs adjacent colors) ----------
+:focus { outline: none; }
+:focus-visible,
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+.btn:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--mu-color-focus);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+// ---------- Skip link ----------
+.mu-skip-link {
+  position: absolute;
+  left: var(--mu-space-2);
+  top: -100px;
+  z-index: 2000;
+  padding: var(--mu-space-2) var(--mu-space-4);
+  background: var(--mu-color-bg);
+  color: var(--mu-color-link);
+  font-weight: 600;
+}
+.mu-skip-link:focus,
+.mu-skip-link:focus-visible { top: var(--mu-space-2); }
+
+// ---------- Navbar ----------
+#quarto-header,
+.headroom { box-shadow: none; }
+.navbar {
+  background-color: var(--mu-color-bg-brand) !important;
+  min-height: 56px;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: 0;
+  box-shadow: none;
+}
+.navbar .navbar-brand,
+.navbar .navbar-title {
+  color: var(--mu-color-text-on-brand);
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-decoration: none;
+}
+.navbar .navbar-brand:hover .navbar-title { text-decoration: underline; }
+.navbar .nav-link {
+  color: var(--mu-color-text-on-brand) !important;
+  text-decoration: none;
+  padding: var(--mu-space-4) var(--mu-space-3);
+  border-bottom: 3px solid transparent;
+  min-height: 44px;
+}
+.navbar .nav-link:hover {
+  background-color: var(--mu-color-bg-brand-hover);
+  text-decoration: underline;
+}
+// Current page: bar + weight (two non-color channels)
+.navbar .nav-link.active,
+.navbar .nav-link[aria-current="page"] {
+  border-bottom-color: var(--mu-color-text-on-brand);
+  font-weight: 700;
+}
+// Focus on maroon: white ring (15.66:1). Blue would be 2.41:1 and fail.
+.navbar a:focus-visible,
+.navbar button:focus-visible,
+.navbar .nav-link:focus-visible {
+  outline: 3px solid var(--mu-color-focus-on-brand);
+  outline-offset: -3px;
+}
+.navbar-toggler {
+  color: var(--mu-color-text-on-brand);
+  border: 1px solid var(--mu-color-text-on-brand);
+  border-radius: var(--mu-radius);
+  min-height: 44px;
+  min-width: 44px;
+}
+// Search control
+#quarto-search .aa-DetachedSearchButton,
+.navbar #quarto-search .aa-Autocomplete,
+.aa-Form {
+  background: var(--mu-color-bg);
+  border: 1px solid var(--mu-color-border-control);
+  border-radius: var(--mu-radius);
+  box-shadow: none;
+}
+.navbar #quarto-search .aa-DetachedSearchButton { border-color: var(--mu-color-text-on-brand); }
+
+// ---------- Logo placeholder (pending TTI Communications approval) ----------
+.mu-logo-placeholder {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 var(--mu-space-2);
+  margin-right: var(--mu-space-3);
+  border: 1px dashed currentColor;
+  font-size: var(--mu-text-label);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.navbar .mu-logo-placeholder { color: var(--mu-color-text-on-brand); }
+.nav-footer .mu-logo-placeholder { color: var(--mu-color-text); }
+
+// ---------- Footer ----------
+.nav-footer {
+  background: var(--mu-color-bg-muted);
+  color: var(--mu-color-text);
+  border-top: 1px solid var(--mu-color-border);
+  font-size: var(--mu-text-small);
+  line-height: 20px;
+  padding: var(--mu-space-8) var(--mu-space-6);
+  text-align: left;
+  align-items: flex-start;
+  box-shadow: none;
+}
+.nav-footer .nav-footer-left,
+.nav-footer .nav-footer-center,
+.nav-footer .nav-footer-right { text-align: left; }
+.nav-footer a { color: var(--mu-color-link); text-decoration: underline; }
+.nav-footer .mu-footer-muted { color: var(--mu-color-text-muted); }
+.nav-footer p { margin-bottom: var(--mu-space-3); max-width: 90ch; }
+
+// ---------- Sidebar (user manual) ----------
+#quarto-sidebar,
+.sidebar.sidebar-navigation {
+  background: var(--mu-color-bg);
+  border-right: 1px solid var(--mu-color-border);
+}
+.sidebar-navigation .sidebar-section-item .sidebar-item-text,
+.sidebar-navigation .sidebar-item-section > .sidebar-item-container .sidebar-item-text {
+  font-weight: 700;
+  color: var(--mu-color-text);
+}
+.sidebar-navigation .sidebar-link {
+  color: var(--mu-color-text);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  padding-left: var(--mu-space-2);
+}
+.sidebar-navigation .sidebar-link:hover { text-decoration: underline; }
+.sidebar-navigation .sidebar-link.active {
+  border-left-color: var(--mu-color-bg-brand);
+  font-weight: 600;
+  color: var(--mu-color-text);
+}
+.sidebar-navigation .sidebar-link.active .menu-text { color: var(--mu-color-text); }
+
+// ---------- Table of contents ----------
+#TOC, nav[role="doc-toc"] { font-size: var(--mu-text-small); }
+#toc-title, nav[role="doc-toc"] h2 { font-size: var(--mu-text-small); font-weight: 700; border-top: 0; padding-top: 0; }
+nav[role="doc-toc"] ul a,
+#TOC a.nav-link {
+  color: var(--mu-color-text-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+}
+nav[role="doc-toc"] ul a:hover { text-decoration: underline; }
+nav[role="doc-toc"] ul a.active,
+#TOC a.nav-link.active {
+  color: var(--mu-color-text);
+  border-left-color: var(--mu-color-text);
+  font-weight: 600;
+}
+
+// ---------- Page navigation (Previous / Next) ----------
+.page-navigation { border-top: 1px solid var(--mu-color-border); padding-top: var(--mu-space-4); }
+.page-navigation a { color: var(--mu-color-link); text-decoration: underline; }
+.page-navigation .nav-page i { display: none; } // no arrow icons; text carries direction
+
+// ---------- Lead & meta ----------
+.mu-lead { font-size: 1.125rem; line-height: 28px; color: var(--mu-color-text-muted); max-width: 72ch; }
+.mu-meta { font-size: var(--mu-text-small); line-height: 20px; color: var(--mu-color-text-muted); font-variant-numeric: tabular-nums; }
+.mu-meta a { color: var(--mu-color-link); }
+
+// ---------- Tables ----------
+.table, main table {
+  font-size: var(--mu-text-table);
+  line-height: 24px;
+  border-collapse: collapse;
+  border: 0;
+  margin-bottom: var(--mu-space-6);
+  font-variant-numeric: tabular-nums;
+  --bs-table-hover-bg: transparent;
+  --bs-table-striped-bg: transparent;
+}
+main table > caption,
+main table caption {
+  caption-side: top;
+  text-align: left;
+  font-size: var(--mu-text-small);
+  color: var(--mu-color-text-muted);
+  padding: 0 0 var(--mu-space-2) 0;
+}
+main table thead th,
+main table > thead > tr > th {
+  background: var(--mu-color-bg-muted);
+  color: var(--mu-color-text);
+  font-weight: 600;
+  text-align: left;
+  vertical-align: bottom;
+  border-top: 0;
+  border-bottom: 2px solid var(--mu-color-border-strong) !important;
+}
+main table td,
+main table tbody th {
+  padding: var(--mu-space-2) var(--mu-space-3);
+  border-top: 0;
+  border-bottom: 1px solid var(--mu-color-border);
+  vertical-align: top;
+}
+main table th, main table td { border-left: 0; border-right: 0; }
+main table tbody th[scope="row"] { font-weight: 600; }
+main table tbody tr:hover > * { background: inherit; }
+main table td.mu-num, main table th.mu-num { text-align: right; }
+main table .mu-version, main table code { font-family: var(--mu-font-mono); font-size: 0.875em; background: transparent; padding: 0; }
+
+table.mu-zebra tbody tr:nth-child(even) > * { background: var(--mu-color-bg-subtle); }
+table.mu-sticky-head thead th { position: sticky; top: 0; z-index: 1; }
+
+.mu-table-wrap { overflow-x: auto; margin-bottom: var(--mu-space-6); }
+.mu-table-wrap > table { margin-bottom: 0; }
+
+// Compatibility matrix: words carry meaning; weight is the visual channel
+table.mu-compat tbody th[scope="row"],
+table.mu-compat thead th { background: var(--mu-color-bg-muted); }
+table.mu-compat .mu-supported { font-weight: 600; color: var(--mu-color-text); }
+table.mu-compat .mu-limited { font-weight: 400; color: var(--mu-color-text); }
+table.mu-compat .mu-unsupported { font-weight: 400; color: var(--mu-color-text-muted); }
+
+// ---------- Status labels (word + border style + hue) ----------
+.mu-badge {
+  display: inline-block;
+  font-size: var(--mu-text-label);
+  font-weight: 600;
+  line-height: 16px;
+  padding: 1px var(--mu-space-2);
+  border-radius: var(--mu-radius);
+  border-width: 1px;
+  border-style: solid;
+  white-space: nowrap;
+  vertical-align: 0.1em;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.mu-badge--current,
+.mu-badge--fixed      { color: $mu-green-800; background: $mu-green-50; border-color: $mu-green-800; border-style: solid; }  // 6.91:1
+.mu-badge--limited,
+.mu-badge--workaround { color: $mu-amber-800; background: $mu-amber-50; border-color: $mu-amber-800; border-style: dashed; } // 7.81:1
+.mu-badge--retired    { color: $mu-gray-700;  background: $mu-gray-100; border-color: $mu-gray-700;  border-style: dotted; } // 7.71:1
+.mu-badge--prerelease { color: $mu-red-800;   background: $mu-red-50;   border-color: $mu-red-800;   border-style: double; border-width: 3px; padding: 0 var(--mu-space-2); } // 7.84:1
+.mu-badge--open       { color: $mu-red-800;   background: $mu-red-50;   border-color: $mu-red-800;   border-style: solid; }  // 7.84:1
+
+// ---------- Current release panel (the one bordered region) ----------
+.mu-release-panel {
+  border: 1px solid var(--mu-color-border-strong);
+  border-radius: 0;
+  margin: var(--mu-space-6) 0 var(--mu-space-8);
+  background: var(--mu-color-bg);
+}
+.mu-release-panel__head {
+  background: var(--mu-color-bg-brand-tint);
+  border-bottom: 1px solid var(--mu-color-border-strong);
+  padding: var(--mu-space-2) var(--mu-space-4);
+  font-weight: 700;
+  font-size: var(--mu-text-small);
+}
+.mu-release-panel__body { padding: var(--mu-space-4); }
+.mu-release-panel__body > :last-child { margin-bottom: 0; }
+.mu-release-panel h2,
+.mu-release-panel .mu-release-version {
+  font-size: var(--mu-text-h2);
+  line-height: 32px;
+  margin: 0 0 var(--mu-space-2);
+  border-top: 0;
+  padding-top: 0;
+}
+.mu-release-panel__downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mu-space-4) var(--mu-space-6);
+  margin: var(--mu-space-4) 0;
+}
+.mu-release-panel__downloads > div { display: flex; flex-direction: column; gap: var(--mu-space-1); min-width: 0; }
+
+.mu-impact { margin: var(--mu-space-2) 0; }
+.mu-impact > strong, .mu-impact .mu-impact-label { font-weight: 600; }
+
+.mu-checksum {
+  font-family: var(--mu-font-mono);
+  font-size: var(--mu-text-small);
+  color: var(--mu-color-text-muted);
+  overflow-wrap: anywhere;
+  max-width: 44ch;
+}
+
+// ---------- Buttons (downloads, subscribe) ----------
+.mu-btn,
+a.mu-btn,
+a.mu-btn:visited {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--mu-space-2) var(--mu-space-4);
+  background: var(--mu-color-bg-brand);
+  color: var(--mu-color-text-on-brand);
+  border: 1px solid var(--mu-color-bg-brand);
+  border-radius: var(--mu-radius);
+  font-weight: 600;
+  line-height: 24px;
+  text-decoration: none;
+  box-shadow: none;
+}
+.mu-btn:hover,
+a.mu-btn:hover {
+  background: var(--mu-color-bg-brand-hover);
+  border-color: var(--mu-color-bg-brand-hover);
+  color: var(--mu-color-text-on-brand);
+  text-decoration: underline;
+}
+.mu-btn--secondary,
+a.mu-btn--secondary,
+a.mu-btn--secondary:visited {
+  background: var(--mu-color-bg);
+  color: var(--mu-color-link);
+  border-color: var(--mu-color-link);
+}
+.mu-btn--secondary:hover,
+a.mu-btn--secondary:hover {
+  background: var(--mu-color-bg-brand-tint);
+  color: var(--mu-color-link);
+  border-color: var(--mu-color-link);
+}
+.btn { border-radius: var(--mu-radius); box-shadow: none; }
+
+// ---------- Home two-column region ----------
+.mu-home-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--mu-space-8);
+}
+.mu-home-cols h2 { border-top: 0; padding-top: 0; margin-top: 0; }
+@media (max-width: 991.98px) {
+  .mu-home-cols { grid-template-columns: minmax(0, 1fr); gap: var(--mu-space-6); }
+}
+
+// Filter line (text links, not chips)
+.mu-filter { font-size: var(--mu-text-small); margin: var(--mu-space-2) 0 var(--mu-space-4); }
+.mu-filter a[aria-current="page"], .mu-filter a.active { font-weight: 700; color: var(--mu-color-text); }
+
+// ---------- News listing (flatten Quarto "default" listing) ----------
+.quarto-listing-default .quarto-post {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0 var(--mu-space-4);
+  padding: var(--mu-space-4) 0;
+  margin: 0;
+  border-bottom: 1px solid var(--mu-color-border);
+  box-shadow: none;
+  background: transparent;
+}
+.quarto-listing-default .quarto-post .thumbnail,
+.quarto-listing-default .quarto-post .thumbnail-image,
+.quarto-listing-default .quarto-post .listing-reading-time,
+.quarto-listing-default .quarto-post .listing-author { display: none; }
+.quarto-listing-default .quarto-post .metadata {
+  order: -1;
+  font-size: var(--mu-text-small);
+  color: var(--mu-color-text-muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+.quarto-listing-default .quarto-post .body h3,
+.quarto-listing-default .quarto-post .listing-title {
+  font-size: 1.125rem;
+  line-height: 28px;
+  font-weight: 600;
+  margin: 0 0 var(--mu-space-1);
+  border-top: 0;
+  padding-top: 0;
+}
+.quarto-listing-default .quarto-post .listing-description {
+  color: var(--mu-color-text-muted);
+  margin: 0;
+}
+.quarto-listing-default .quarto-post a { text-decoration: underline; }
+.quarto-listing-default .quarto-post .body > a { text-decoration: none; }
+.quarto-listing-default .quarto-post .body > a .listing-title { text-decoration: underline; text-underline-offset: 0.15em; }
+// Categories as plain text, not pills
+.quarto-listing-default .listing-categories .listing-category,
+.quarto-listing-category .category {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin-right: var(--mu-space-2);
+  font-size: var(--mu-text-small);
+  font-weight: 600;
+  color: var(--mu-color-text);
+  text-transform: none;
+  border-radius: 0;
+}
+@media (max-width: 575.98px) {
+  .quarto-listing-default .quarto-post { grid-template-columns: minmax(0, 1fr); }
+}
+
+// ---------- Callouts ----------
+.callout {
+  border-radius: 0 !important;
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-left-width: 4px !important;
+  box-shadow: none;
+  margin: var(--mu-space-6) 0;
+}
+.callout .callout-icon-container { display: none; }
+.callout .callout-title-container { font-weight: 700; }
+.callout-body-container, .callout .callout-body { color: var(--mu-color-text); }
+.callout-note      { background: $mu-blue-50;  border-left-color: $mu-blue-800 !important; }
+.callout-warning   { background: $mu-amber-50; border-left-color: $mu-amber-800 !important; }
+.callout-important { background: $mu-red-50;   border-left-color: $mu-red-800 !important; }
+.callout-note      .callout-title-container { color: $mu-blue-800; }  // 7.71:1
+.callout-warning   .callout-title-container { color: $mu-amber-800; } // 7.81:1
+.callout-important .callout-title-container { color: $mu-red-800; }   // 7.84:1
+.callout .callout-header { background: transparent !important; border: 0; }
+
+// ---------- Code ----------
+code, kbd, pre, samp { font-family: var(--mu-font-mono); }
+:not(pre) > code {
+  font-size: 0.875em;
+  color: var(--mu-color-text);
+  background: var(--mu-color-bg-muted);
+  border-radius: var(--mu-radius);
+  padding: 0 1px;
+}
+div.sourceCode, pre.sourceCode, pre {
+  background: var(--mu-color-bg-subtle);
+  border: 1px solid var(--mu-color-border);
+  border-left: 1px solid var(--mu-color-border);
+  border-radius: 0;
+}
+.code-copy-button { border-radius: var(--mu-radius); }
+
+// ---------- Figures / screenshots ----------
+main figure img, main .figure img, main img.mu-screenshot {
+  border: 1px solid var(--mu-color-border);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+// ---------- Utility ----------
+.mu-mono { font-family: var(--mu-font-mono); }
+hr { border: 0; border-top: 1px solid var(--mu-color-border); opacity: 1; margin: var(--mu-space-8) 0; }
+
+// ---------- Narrow screens ----------
+@media (max-width: 575.98px) {
+  .nav-footer { padding: var(--mu-space-6) var(--mu-space-4); }
+  .mu-release-panel__downloads { flex-direction: column; }
+  .mu-btn { width: 100%; justify-content: flex-start; }
+}
+
+// ---------- Windows High Contrast / forced colors ----------
+@media (forced-colors: active) {
+  .mu-badge { border-color: CanvasText; forced-color-adjust: auto; }
+  .mu-release-panel, .mu-release-panel__head { border-color: CanvasText; }
+  .navbar .nav-link.active { border-bottom-color: CanvasText; }
+  .sidebar-navigation .sidebar-link.active { border-left-color: CanvasText; }
+  .callout { border-left-color: CanvasText !important; }
+  .mu-btn { border: 1px solid ButtonText; }
+  :focus-visible { outline-color: Highlight; }
+}
+
+// ---------- Reduced motion (nothing animates, but enforce it) ----------
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+// ---------- Print (release notes are often filed with project records) ----------
+@media print {
+  #quarto-header, .navbar, #quarto-sidebar, #quarto-margin-sidebar, nav[role="doc-toc"],
+  .page-navigation, .mu-skip-link, .code-copy-button, #quarto-search { display: none !important; }
+  body { font-size: 11pt; color: $mu-gray-900; background: $mu-white; }
+  a { color: $mu-gray-900; }
+  main a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; overflow-wrap: anywhere; }
+  .mu-btn { border: 1px solid $mu-gray-900; background: $mu-white; color: $mu-gray-900; }
+  .mu-release-panel__head { background: $mu-white; }
+  table, .mu-release-panel, .callout { break-inside: avoid; }
+}

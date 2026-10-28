@@ -1,0 +1,6 @@
+/* Public Sans, self-hosted (SIL OFL 1.1, see OFL.txt). Latin subset from @fontsource/public-sans 5.3.0.
+   Self-hosted so visitors' browsers make no request to a third-party font service. */
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("public-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Public Sans"; font-style: italic; font-weight: 400; font-display: swap; src: url("public-sans-latin-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("public-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 700; font-display: swap; src: url("public-sans-latin-700-normal.woff2") format("woff2"); }

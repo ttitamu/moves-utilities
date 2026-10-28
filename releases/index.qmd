@@ -1,0 +1,100 @@
+---
+title: "Releases"
+listing:
+  id: version-history
+  contents: "*.md"
+  sort: "date desc"
+  type: table
+  fields: [date, title, release-type, results-impact]
+  field-display-names:
+    date: "Date"
+    title: "Version"
+    release-type: "Type"
+    results-impact: "Results impact"
+  date-format: "YYYY-MM-DD"
+  sort-ui: false
+  filter-ui: false
+---
+
+This page has the current MOVES Utilities installer and the notes for each version.
+
+## Download {#download}
+
+::: {.mu-release-panel}
+::: {.mu-release-panel__head}
+Current release
+:::
+
+::: {.mu-release-panel__body}
+### MOVES Utilities {{< var latest.version >}} [Status:]{.visually-hidden} [Current]{.mu-badge .mu-badge--current} {.unlisted}
+
+| Item | Value |
+|---|---|
+| Version | {{< var latest.version >}} |
+| Release date | {{< var latest.date >}} |
+| Release notes | [{{< var latest.version >}} release notes](/{{< var latest.notes >}}) |
+| Platform | Windows 10 or 11, 64-bit. |
+
+::: {.mu-release-panel__downloads}
+::: {}
+[Download the MOVES Utilities {{< var latest.version >}} installer ({{< var conformity.file_name >}}, EXE, {{< var conformity.file_size >}})]({{< var conformity.download_url >}}){.mu-btn}
+
+[SHA-256: {{< var conformity.sha256 >}}]{.mu-checksum}
+:::
+:::
+:::
+:::
+
+### Before you install
+
+You need these programs on your computer or network before you use MOVES Utilities:
+
+- A MariaDB server that the application can connect to.
+- EPA MOVES, installed locally. See [Compatibility](../compatibility.qmd) for supported MOVES versions.
+
+You do not need Python. The installer contains everything the application needs to run.
+
+### The installer is not digitally signed
+
+The installer does not carry a code signing certificate. Windows SmartScreen can show the message "Windows protected your PC" when you start it.
+
+To confirm the file is unchanged, compare its SHA-256 hash with the value above. In PowerShell, run:
+
+```powershell
+Get-FileHash .\{{< var conformity.file_name >}} -Algorithm SHA256
+```
+
+If the hashes match, select **More info**, then **Run anyway**. If they do not match, do not run the file. Report the problem using the contact information on the [About](../about.qmd) page.
+
+Your organization can block unsigned programs. If it does, ask your IT department for help.
+
+### Install
+
+1. Run the installer.
+2. Follow the prompts. The installer does not need administrator rights.
+3. Start the application from the Windows Start menu. The program name is **MOVES Emission Utilities — Conformity**.
+4. To confirm the version, open **Settings**, then **About**.
+
+## Conformity settings {#conformity-settings}
+
+MOVES Utilities has three workflows: Emission Rate, Emission Inventory, and Post-Processing. On the **Emission Rate** tab:
+
+- The project type is fixed to Transportation Conformity.
+- Two county database (CDB) templates are offered: Summer Only, and Summer + Winter.
+- The day type is fixed to Weekday.
+- The conformity pollutants and processes are selected by default. You can still adjust individual pairs.
+
+## Version support status
+
+| Version | Status | Notes |
+|---|---|---|
+| {{< var latest.version >}} | Current | Supported. Report problems against this version. |
+
+**Current** means the version is supported and receives fixes. **Limited use** means you can finish work already in progress with it, but new work uses the current version. **Retired** means the version is no longer supported.
+
+## Version history
+
+Each version has its own release note. Newest versions are first.
+
+::: {#version-history}
+:::

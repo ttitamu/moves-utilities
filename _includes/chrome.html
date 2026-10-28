@@ -1,0 +1,56 @@
+<script>
+// Small chrome adjustments Quarto has no option for.
+(function () {
+  // Skip link must be the first focusable element. Quarto places include-before-body after the
+  // header, so move it to the start of <body>.
+  var skip = document.querySelector(".mu-skip-link");
+  if (skip && document.body.firstElementChild !== skip) document.body.insertBefore(skip, document.body.firstChild);
+  // Collapsed navbar toggle reads "Menu", not a bare icon. Accessible name matches the visible text.
+  document.querySelectorAll(".navbar-toggler").forEach(function (b) {
+    b.textContent = "Menu";
+    b.setAttribute("aria-label", "Menu");
+    // Quarto adds role="menu"; a native button with aria-expanded is the correct pattern (WCAG 4.1.2).
+    b.removeAttribute("role");
+  });
+  // News category filter: Quarto renders the categories as clickable <div>s. Make them buttons that
+  // work from the keyboard (WCAG 2.1.1) and report which filter is active.
+  // The listing script re-creates post items after load, so attributes are set here and the
+  // keyboard handling is delegated from the document.
+  var CATS = ".quarto-listing-category .category, .listing-categories .listing-category";
+  function syncPressed() {
+    document.querySelectorAll(".quarto-listing-category .category").forEach(function (c) {
+      c.setAttribute("aria-pressed", c.classList.contains("active") ? "true" : "false");
+    });
+  }
+  document.querySelectorAll(CATS).forEach(function (c) {
+    c.setAttribute("role", "button");
+    c.tabIndex = 0;
+  });
+  document.addEventListener("keydown", function (e) {
+    var c = e.target.closest && e.target.closest(CATS);
+    if (c && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); c.click(); }
+  });
+  document.addEventListener("click", function (e) {
+    if (e.target.closest && e.target.closest(CATS)) setTimeout(syncPressed, 0);
+  });
+  window.addEventListener("load", syncPressed);
+  window.addEventListener("hashchange", syncPressed);
+  // Logo slot: visibly unfinished until TTI Communications approves logo use. Hidden from
+  // assistive technology so the home link's name stays "MOVES Utilities".
+  var brand = document.querySelector(".navbar-brand");
+  if (brand && !brand.querySelector(".mu-logo-placeholder")) {
+    var s = document.createElement("span");
+    s.className = "mu-logo-placeholder";
+    s.setAttribute("aria-hidden", "true");
+    s.textContent = "TTI logo pending approval";
+    brand.insertBefore(s, brand.firstChild);
+  }
+  // Table listings: keyboard-reachable, labelled scroll region (WCAG 2.1.1, 1.4.10).
+  var labels = { "listing-version-history": "Version history", "listing-recent-news": "Recent news" };
+  document.querySelectorAll(".quarto-listing-container-table").forEach(function (c) {
+    c.setAttribute("role", "region");
+    c.setAttribute("tabindex", "0");
+    c.setAttribute("aria-label", labels[c.id] || "Listing");
+  });
+})();
+</script>

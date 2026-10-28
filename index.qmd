@@ -1,0 +1,90 @@
+---
+title: "MOVES Utilities"
+subtitle: "Desktop tools for preparing MOVES inputs and processing MOVES results"
+listing:
+  id: recent-news
+  contents: "news/*.md"
+  sort: "date desc"
+  type: table
+  max-items: 3
+  fields: [date, title]
+  field-display-names:
+    date: "Date"
+    title: "News item"
+  sort-ui: false
+  filter-ui: false
+  date-format: "YYYY-MM-DD"
+toc: false
+---
+
+MOVES Utilities is a Windows desktop application for transportation emission analyses that use the U.S. Environmental Protection Agency (EPA) Motor Vehicle Emission Simulator (MOVES). The Texas A&M Transportation Institute (TTI) develops it with sponsorship from the Texas Department of Transportation (TxDOT).
+
+The application does three things:
+
+- It builds the input databases that MOVES reads.
+- It starts MOVES runs for emission rates.
+- It calculates hourly emissions from the emission rates and your activity data, and writes tab files with 24-hour county totals.
+
+MOVES itself is a separate program. You install MOVES and a MariaDB server separately. MOVES Utilities does not replace MOVES and is not an EPA product.
+
+MOVES Utilities is configured for transportation conformity analyses. The emission rate setup uses transportation conformity settings. See [Conformity settings](releases/index.qmd#conformity-settings) for details.
+
+::: {.mu-release-panel}
+::: {.mu-release-panel__head}
+Current release
+:::
+
+::: {.mu-release-panel__body}
+## MOVES Utilities {{< var latest.version >}} [Status:]{.visually-hidden} [Current]{.mu-badge .mu-badge--current} {.unlisted}
+
+[Released: {{< var latest.date >}}]{.mu-meta}
+
+::: {.mu-release-panel__downloads}
+[Download and install](releases/index.qmd#download){.mu-btn}
+:::
+
+- [Release notes for {{< var latest.version >}}](/{{< var latest.notes >}})
+- [Known issues](known-issues.qmd)
+- [MOVES version compatibility](compatibility.qmd)
+:::
+:::
+
+::: {.mu-home-cols}
+::: {}
+## Recent news
+
+::: {#recent-news}
+:::
+
+[All news](news/index.qmd)
+:::
+
+::: {}
+## Known issues in {{< var latest.version >}}
+
+- [KI-001](known-issues.qmd#ki-001): The installer is not digitally signed. [Open]{.mu-badge .mu-badge--open}
+
+[All known issues](known-issues.qmd)
+:::
+:::
+
+## Get notified of new releases
+
+Use either method. Neither method requires you to give your email address to TTI.
+
+**GitHub release notifications.** You need a GitHub account.
+
+1. Go to the [moves-utilities repository]({{< var repo.url >}}).
+2. Select **Watch**, then **Custom**.
+3. Check **Releases** and select **Apply**.
+
+GitHub emails you each time a new version is published.
+
+**RSS feeds.** Add a feed to any feed reader.
+
+- News and announcements: [news/index.xml](news/index.xml)
+- Releases only: [releases.atom]({{< var repo.releases_atom >}})
+
+## Questions and problem reports
+
+See [About](about.qmd) for contact information. Check [Known issues](known-issues.qmd) before you report a problem.

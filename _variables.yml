@@ -1,0 +1,27 @@
+# Site-wide values. Pages read these with {{< var key >}}.
+# Update this file once per release. Every page that shows the
+# version or the download link picks up the change.
+
+latest:
+  version: "0.5.9"
+  # Filled by the release pipeline (YYYY-MM-DD).
+  date: "TODO(owner): release date"
+  # Path of the release note page for the latest version.
+  notes: "releases/0.5.9.html"
+
+conformity:
+  # download_url, file_size, and sha256 are filled by the release pipeline
+  # from the GitHub Release on ttitamu/moves-utilities.
+  download_url: "TODO(owner): conformity installer URL"
+  file_name: "MOVESConformityUtils_Setup_0.5.9.exe"
+  file_size: "66 MB"
+  sha256: "TODO(owner): SHA-256 of the published installer"
+
+repo:
+  url: "https://github.com/ttitamu/moves-utilities"
+  releases_atom: "https://github.com/ttitamu/moves-utilities/releases.atom"
+  issues_url: "https://github.com/ttitamu/moves-utilities/issues"
+
+contact:
+  # Questions, problem reports, and accessibility requests go to GitHub Issues.
+  url: "https://github.com/ttitamu/moves-utilities/issues"

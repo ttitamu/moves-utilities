@@ -1,0 +1,15 @@
+---
+title: "News"
+listing:
+  contents: "*.md"
+  sort: "date desc"
+  type: default
+  fields: [date, title, description, categories]
+  date-format: "YYYY-MM-DD"
+  categories: true
+  feed: true
+---
+
+Announcements about MOVES Utilities: new versions, known issues, MOVES version support, and training. Newest items are first.
+
+Subscribe to this page with the RSS feed at [index.xml](index.xml).

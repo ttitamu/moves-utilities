@@ -1,0 +1,131 @@
+/*
+ * Additions to theme.scss.
+ * Only covers markup the build introduces; all values come from the --mu-* tokens.
+ */
+
+/*-- scss:rules --*/
+
+// TODO(owner) markers: visible, clearly unfinished, not alarming.
+.mu-todo {
+  display: inline-block;
+  padding: 0 var(--mu-space-1);
+  border: 1px dashed var(--mu-color-text-muted);
+  border-radius: var(--mu-radius);
+  font-size: var(--mu-text-small);
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--mu-color-text-muted);
+  background: var(--mu-color-bg-subtle);
+}
+
+// Status label inside a heading: keep heading size for the text, label size for the label.
+h2 .mu-badge, h3 .mu-badge { margin-left: var(--mu-space-2); vertical-align: 0.25em; }
+
+// Footer links line
+.nav-footer .mu-footer-links { margin-bottom: 0; }
+
+// Current-release panel: heading levels differ by page (h2 on Home, h3 under "Download" on Releases).
+.mu-release-panel h3 {
+  font-size: var(--mu-text-h2);
+  line-height: 32px;
+  font-weight: 700;
+  margin: 0 0 var(--mu-space-2);
+}
+.mu-release-panel__head > p { margin: 0; }
+.mu-release-panel__body .mu-meta,
+.mu-release-panel__body .mu-impact { display: block; }
+
+// Footer: one left-aligned column spanning the footer; Quarto's empty center/right cells are dropped.
+.nav-footer .nav-footer-left { flex: 1 1 auto; max-width: 1200px; }
+.nav-footer .nav-footer-center:empty,
+.nav-footer .nav-footer-right:empty { display: none; }
+.nav-footer .nav-footer-center, .nav-footer .nav-footer-right { min-height: 0; }
+
+// Panel heading never carries the section rule (beats `main section.level2 > h2`).
+main .mu-release-panel h2,
+main .mu-release-panel h3 { border-top: 0; padding-top: 0; margin-top: 0; }
+
+// Table listings (home "Recent news", "Version history"): titles are table text, not page titles.
+.quarto-listing-table .listing-title,
+.quarto-listing-table a.title {
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 400;
+}
+.quarto-listing-table .listing-date { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+// Footer text stays at the 14px small size (13px is the minimum anywhere).
+.nav-footer,
+.nav-footer .nav-footer-left,
+.nav-footer .nav-footer-left p { font-size: var(--mu-text-small); line-height: 20px; }
+
+// Long, descriptive download labels wrap instead of widening the page (WCAG 1.4.10 reflow).
+.mu-release-panel__downloads > div { max-width: 100%; }
+.mu-btn, a.mu-btn { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+
+// Title-block metadata labels on posts and release notes: keep at the 14px small size.
+.quarto-title-meta-heading, .quarto-title-meta-contents,
+.quarto-title .quarto-categories .quarto-category { font-size: var(--mu-text-small); }
+
+#title-block-header.quarto-title-block.default .quarto-title-meta-heading,
+#title-block-header.quarto-title-block.default .quarto-title-meta-contents { font-size: var(--mu-text-small); }
+
+// Narrow screens: tighter cell padding so four-column listing tables fit at 320-375px.
+@media (max-width: 575.98px) {
+  main table td, main table th { padding-left: var(--mu-space-2); padding-right: var(--mu-space-2); }
+}
+
+// Search: visible icon on the white control, visible focus on the maroon bar.
+#quarto-search .aa-DetachedSearchButtonIcon,
+#quarto-search .aa-SubmitIcon,
+#quarto-search .aa-DetachedSearchButton svg { color: var(--mu-color-text); fill: currentColor; }
+.navbar #quarto-search .aa-Form:focus-within,
+.navbar #quarto-search .aa-DetachedSearchButton:focus-visible {
+  outline: 3px solid var(--mu-color-focus-on-brand);
+  outline-offset: 2px;
+}
+
+@media (max-width: 575.98px) {
+  // The logo placeholder would push the site title off a 320-375px bar; the title wins.
+  .navbar .mu-logo-placeholder { display: none; }
+  .quarto-listing-table { font-size: var(--mu-text-small); }
+}
+
+// Table listings scroll inside their own region on narrow screens; chrome.html makes it focusable.
+.quarto-listing-container-table { overflow-x: auto; }
+.quarto-listing-container-table > table { margin-bottom: 0; }
+
+// Table cells break between words only; the wrapper scrolls if the table is wider than the screen.
+.mu-table-wrap table th,
+.mu-table-wrap table td,
+.mu-table-wrap table a { overflow-wrap: normal; word-break: normal; }
+.mu-table-wrap table tbody th[scope="row"] { white-space: nowrap; }
+
+// News categories: plain sentence-case text at the 14px small size, not bordered uppercase tags.
+// Quarto's listing CSS is more specific than the theme rule, so restate it here.
+.quarto-listing-default div.listing-categories .listing-category,
+.quarto-listing .quarto-listing-category .category,
+.quarto-title .quarto-categories .quarto-category {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  font-size: var(--mu-text-small);
+  line-height: 20px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  opacity: 1;
+  color: var(--mu-color-text);
+  cursor: pointer;
+}
+.quarto-listing-default div.listing-categories .listing-category { margin-right: var(--mu-space-2); }
+
+// Code blocks wrap long lines instead of scrolling sideways, so every character is readable
+// without a scrollbar or a mouse (WCAG 2.1.1, 1.4.10).
+div.sourceCode pre.sourceCode,
+div.sourceCode pre.sourceCode code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+div.sourceCode { overflow-x: visible; }
